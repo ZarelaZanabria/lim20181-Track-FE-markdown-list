@@ -1,5 +1,5 @@
 {
-  "name": "my-markdown-link",
+  "name": "validate-markdown",
   "version": "1.0.0",
   "description": "Validador de Links de un archivo markdown",
   "main": "index.js",
@@ -15,6 +15,17 @@
   "license": "GPL-3.0",
   "dependencies": {
     "semver": "^5.5.0"
-  }
-  
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZarelixCoder/lim20181-Track-FE-markdown-list.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ZarelixCoder/lim20181-Track-FE-markdown-list/issues"
+  },
+  "homepage": "https://github.com/ZarelixCoder/lim20181-Track-FE-markdown-list#readme"
 }
