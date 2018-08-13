@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "lint": "eslint index.js"
   },
   "keywords": [
     "links",
@@ -19,7 +20,11 @@
   "directories": {
     "test": "test"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^3.0.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^1.10.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ZarelixCoder/lim20181-Track-FE-markdown-list.git"
