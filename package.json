@@ -1,7 +1,7 @@
 {
-  "name": "npm",
+  "name": "my-markdown-link",
   "version": "1.0.0",
-  "description": "Links",
+  "description": "Validador de Links de un archivo markdown",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,5 +12,9 @@
     "markdown"
   ],
   "author": "Elizabeth Zanabria",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "dependencies": {
+    "semver": "^5.5.0"
+  }
+  
 }
