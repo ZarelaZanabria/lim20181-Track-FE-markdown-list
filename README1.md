@@ -1,1 +1,0 @@
-- [¿Simplemente qué es Node.js? - IBM Developer Works, 2011](http://zarela.com)
