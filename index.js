@@ -2,8 +2,9 @@
 //Desde este archivo debes exportar una función (mdLinks)
 const fs = require('fs');
 const path = require('path');
-/* const fetch = require('node-fetch'); */
+const fetch = require('node-fetch'); 
 let XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+
 //Array en donde se va almacenar los links del archivo markdown
 let links = [];
 
@@ -38,20 +39,17 @@ const readFileMarkdown = path => {
   }
   return linksMd; // linksMd guardamos el array de objetos con los linksMd
 }
+//----IMPORTANTE/* 
 
-//----IMPORTANTE
-
-/* console.log(readFileMarkdown('README.md'))  */ 
+/*  console.log(readFileMarkdown('README.md'))  */
 //Esta letiable contiene todos los links del archivo markdown
-const linkFileMarkdown = readFileMarkdown('F:\\Zarela Data\\Npm\\example\\README22.md');
-
+/*  const linkFileMarkdown = readFileMarkdown('D:\\Zarela Data\\Npm\\example');  */
+/*   console.log (linkFileMarkdown)
+ */
 //--------------------------------------------------FUNCIÓN PARA VERIFICAR SI ES UN ARCHIVO O UNA CARPETA 
 
-fs.exists('F:\\Zarela Data\\NPm', function (exists) {
-  console.log("file exists ? " + exists);
-});
 
-const isDirectoryOrFile = path => fs.stat(path, (error, stats) => {
+const checkIfFileOrFolder = path => fs.stat(path, (error, stats) => {
   if (error) {
     console.log(error);
     //https://www.tutorialspoint.com/nodejs/nodejs_process.htm 
@@ -68,16 +66,17 @@ const isDirectoryOrFile = path => fs.stat(path, (error, stats) => {
             const element = files[fileName]
             /*  Si cuando recorre encuentra un directorio tiene que empezar
              de nuevo a validar  */
-            isDirectoryOrFile(path + '/' + element);
+            checkIfFileOrFolder(path + '/' + element);
           }
         }
       })
     } else if (stats.isFile() && path.indexOf('.md', -3) >= 0) {
       console.log(path + " is a file markdown");
-      /*   Concatenamos por que vamos a obtener todos los links de 
+      /* Concatenamos por que vamos a obtener todos los links de 
         los archivos markdown encontrados */
       links = links.concat(readFileMarkdown(path))
-      
+         
+    
     } else {
       // optionally check for BlockDevice, CharacterDevice etc
       console.log(path + " is not a file markdown or directory");
@@ -85,12 +84,23 @@ const isDirectoryOrFile = path => fs.stat(path, (error, stats) => {
   }
 });
 //----IMPORTANTE...
-console.log(isDirectoryOrFile('F:\\Zarela Data\\Npm\\example'));
-
-
+console.log(checkIfFileOrFolder('D:\\Zarela Data\\Npm\\example'));
+/* const array = checkIfFileOrFolder('D:\\Zarela Data\\Npm\\example');
+console.log (array) */
 
 
 //--------------------------------------------------------------------------FUNCIÓN PARA VALIDAR LOS LINKS 
+
+const validatelinks = (links, callback)=>{
+  arraylinks = [];
+  links.forEach(element => {
+    console.log (element.href)
+  });
+
+   //Vamos a determinar un timepo de respuesta
+   setTimeout(() => callback(arraylinks), 5000);
+
+}
 
 const  validateLink=(url,callback)=> {
   var req = new XMLHttpRequest();
@@ -106,9 +116,11 @@ const  validateLink=(url,callback)=> {
     callback({ error: true, url })
   });
   req.send(null);
-}                                                                                                                                                                                        
+} 
 
-/*  linkFileMarkdown.forEach(element => {  
+
+
+/* linkFileMarkdown.forEach(element => {  
   validateLink(element.href, (error, respuesta) => {
     if (error) {
       console.log( error.url + 'fail' );      
@@ -117,16 +129,4 @@ const  validateLink=(url,callback)=> {
     }
   }); 
    
-});  */
-
-const linkStas = (links) =>{
-  const linkArr = links.forEach(element => {
-    console.log (element.href)
-    
-  });
-  
-  
-
-}
-
-console.log (linkStas(linkFileMarkdown));
+});  */ 
