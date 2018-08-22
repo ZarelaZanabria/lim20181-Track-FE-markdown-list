@@ -2,14 +2,12 @@
 //Desde este archivo debes exportar una función (mdLinks)
 const fs = require('fs');
 const path = require('path');
-const fetch = require('node-fetch'); 
 let XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-
+const fetch = require('node-fetch');
 //Array en donde se va almacenar los links del archivo markdown
 let links = [];
 
-
-//----------------------------------------------------------------FUNCIÓN PARA OBTENER LOS LINKS DE UNA ARCHIVO MARKDOWN
+//--------------------------------------------------------------------FUNCCION PARA OBTENER LOS LINKS DE UN ARCHIVO MARKDOWN
 const readFileMarkdown = path => {
   let linksMd = [];
   const readMarkdown = fs.readFileSync(path, 'utf-8');
@@ -35,20 +33,21 @@ const readFileMarkdown = path => {
       text: textLinkMarkdown,
       href: urlLinkMarkdown,
       file: path
+
     });
   }
   return linksMd; // linksMd guardamos el array de objetos con los linksMd
 }
-//----IMPORTANTE/* 
 
-/*  console.log(readFileMarkdown('README.md'))  */
-//Esta letiable contiene todos los links del archivo markdown
-/*  const linkFileMarkdown = readFileMarkdown('D:\\Zarela Data\\Npm\\example');  */
-/*   console.log (linkFileMarkdown)
- */
-//--------------------------------------------------FUNCIÓN PARA VERIFICAR SI ES UN ARCHIVO O UNA CARPETA 
-
-
+//-----------------------------------------------------------------------------------------FUNCION PARA CONVETIR UN RUTA RELATIVA A ABSOLUTA
+const convertRelativeAbsolute = fileName => {
+  if (path.isAbsolute(fileName)) {
+    return fileName = fileName.toString();
+  } else {
+    return fileName = process.cwd().toString() + fileName.substr(fileName.indexOf('/'));
+  }
+}
+//-------------------------------------------------------------------------------------------FUNCION VERIFICA SI ES UN DIRECTORIO O CARPETA
 const checkIfFileOrFolder = path => fs.stat(path, (error, stats) => {
   if (error) {
     console.log(error);
@@ -57,7 +56,7 @@ const checkIfFileOrFolder = path => fs.stat(path, (error, stats) => {
   }
   else {
     if (stats.isDirectory()) {
-      console.log(path + " is a directory");
+
       fs.readdir(path, 'utf8', (error, files) => {
         if (error) {
           console.log(error);
@@ -71,38 +70,41 @@ const checkIfFileOrFolder = path => fs.stat(path, (error, stats) => {
         }
       })
     } else if (stats.isFile() && path.indexOf('.md', -3) >= 0) {
-      console.log(path + " is a file markdown");
       /* Concatenamos por que vamos a obtener todos los links de 
         los archivos markdown encontrados */
+      /* links = links.concat(readFile(path)) */
       links = links.concat(readFileMarkdown(path))
-         
-    
-    } else {
-      // optionally check for BlockDevice, CharacterDevice etc
-      console.log(path + " is not a file markdown or directory");
+       console.log (links) 
+
     }
   }
 });
-//----IMPORTANTE...
-console.log(checkIfFileOrFolder('D:\\Zarela Data\\Npm\\example'));
-/* const array = checkIfFileOrFolder('D:\\Zarela Data\\Npm\\example');
-console.log (array) */
 
+//-----------------------------------------------------------FUNCION PARA VALIDAR LINKS ASINCRONO CON NODE-FECTH 
 
-//--------------------------------------------------------------------------FUNCIÓN PARA VALIDAR LOS LINKS 
+const validateLinks = (linksMark, callback) => {
+  let linkMarkdValidate = [];
 
-const validatelinks = (links, callback)=>{
-  arraylinks = [];
-  links.forEach(element => {
-    console.log (element.href)
-  });
+  
+  linksMark.map(element => console.log (element.href));
 
-   //Vamos a determinar un timepo de respuesta
-   setTimeout(() => callback(arraylinks), 5000);
+  // esperando la respuesta de todas las promesas
+  setTimeout(() => callback(linkMarkdValidate), 5000);
+};
 
-}
+/* 
+fetch('http://jsonplaceholder.typicode.com/posts/1')
+.then(function(response){
+    return response.json();
+})
+.then(function(json){
+    console.log(json);
+});
+ */
+/* module.exports = mdLinks; */
 
-const  validateLink=(url,callback)=> {
+//---------------------------------------------------------------FUNCION PARA VALIDAR UN LINK CALLBACK
+const  validateLinkOk=(url,callback)=> {
   var req = new XMLHttpRequest();
   req.open("GET", url, true);
   req.addEventListener("load", () =>{
@@ -129,4 +131,7 @@ const  validateLink=(url,callback)=> {
     }
   }); 
    
-});  */ 
+});*/
+/* 
+console.log(checkIfFileOrFolder('F:\\Zarela Data\\NPm\\example')) */
+console.log(checkIfFileOrFolder('./example'))
