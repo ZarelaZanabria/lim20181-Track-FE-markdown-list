@@ -61,71 +61,17 @@ const checkIfFileOrFolder = path => fs.stat(path, (error, stats) => {
 
 });
 
-
-//---------------------------------------------------------------FUNCION PARA VALIDAR UN LINK CALLBACK
-
-
-// => [{ href, text, file, status, ok }]
-
-/* const validatelinkASYN = (arrayLinks)=>{
-  return new Promise ((resolve, reject)=>{
-    arrayLinks.forEach(element => {
-      fetch (element.href)
-      .then (response => {
-        console.log (response.status);
-      }).catch(error)      
-    });
-  });
-
-}  */
-
-/* const validateLink = (url, callback) => {
-  var req = new XMLHttpRequest();
-  req.open("GET", url, true);
-  req.addEventListener("load", () => {
-    if (req.status >= 200 && req.status < 400) {
-      callback(null, { url})
-    } else {
-      console.error(req.status + " " + req.statusText);
-    }
-  });
-  req.addEventListener("error", () => {
-    callback({ error: true, url })
-  });
-  req.send(null);
-}  */
-
 const miPrimeraPromise = new Promise((resolve, reject) => {
-  // Llamamos a resolve(...) cuando lo que estabamos haciendo finaliza con éxito, y reject(...) cuando falla.
-  // En este ejemplo, usamos setTimeout(...) para simular código asíncrono. 
-  // En la vida real, probablemente uses algo como XHR o una API HTML5.
-  setTimeout(function () {
-    resolve(links); // ¡Todo salió bien! // me esta retornando mi array 
+   setTimeout(function () {
+    resolve(links); 
   }, 1000);
 });
 
 miPrimeraPromise.then((successMessage) => {
- /*  successMessage.forEach(element => {
-    validateLink(element.href, (error, respuesta) => {
-       if (error) {
-        console.log(error.url + '  fail');
-      } else {
-        element.textstatus = 'ok',
-        element.status = respuesta.status,
-         console.log(respuesta.url + ' ok  ');
-         console.log(element)
-      }
-    }); */
-
-    // succesMessage es lo que sea que pasamos en la función resolve(...) de arriba.
-    // No tiene por qué ser un string, pero si solo es un mensaje de éxito, probablemente lo sea.
-     console.log(successMessage); 
-  /* }); */
+    console.log(successMessage); 
+ 
 }); 
 
   checkIfFileOrFolder('./example');
 
-
-
-//-----------------------------------------------------------FUNCION PARA VALIDAR LINKS ASINCRONO CON NODE-FECTH 
 
