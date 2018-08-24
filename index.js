@@ -3,7 +3,6 @@
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
-let XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const fetch = require('node-fetch');
 
 //Array en donde se va almacenar los links del archivo markdown
@@ -30,48 +29,41 @@ const readFileMarkdown = path => {
 }
 
 //-------------------------------------------------------------------------------------------FUNCION VERIFICA SI ES UN DIRECTORIO O CARPETA
-const checkIfFileOrFolder = path => fs.stat(path, (error, stats) => {
-  if (error) {
-    console.log(error);
-    //https://www.tutorialspoint.com/nodejs/nodejs_process.htm 
-    process.exit(1);
-  }
-  else {
-    if (stats.isDirectory()) {
-      fs.readdir(path, 'utf8', (error, files) => {
-        if (error) {
-          console.log(error);
-        } else {
-          for (const fileName in files) {
-            const element = files[fileName]
-            /*  Si cuando recorre encuentra un directorio tiene que empezar
-             de nuevo a validar  */
-            checkIfFileOrFolder(path + '/' + element);
-          }
-        }
-      })
-    } else if (stats.isFile() && path.indexOf('.md', -3) >= 0) {
-      /* Concatenamos por que vamos a obtener todos los links de 
-        los archivos markdown encontrados */
-      /* links = links.concat(readFile(path)) */
-      links = links.concat(readFileMarkdown(path))
-       /* console.log(links)  */
+const checkIfFileOrFolder = path => {
+  fs.stat(path, (error, stats) => {
+    if (error) {
+      console.log(error);
+      process.exit(1);
     }
-  }
-
-});
+    else {
+      if (stats.isDirectory()) {
+        fs.readdir(path, 'utf8', (error, files) => {
+          if (error) {
+            console.log(error);
+          } else {
+            for (const fileName in files) {
+              const element = files[fileName]
+              checkIfFileOrFolder(path + '/' + element);
+            }
+          }
+        })
+      } else if (stats.isFile() && path.indexOf('.md', -3) >= 0) {
+        links = links.concat(readFileMarkdown(path));
+      }
+    }
+  });
+}
 
 const miPrimeraPromise = new Promise((resolve, reject) => {
-   setTimeout(function () {
-    resolve(links); 
-  }, 1000);
-});
+    setTimeout(function () {
+      resolve(links);
+    }, 1000);
+  });
 
-miPrimeraPromise.then((successMessage) => {
-    console.log(successMessage); 
- 
-}); 
+  miPrimeraPromise.then((successMessage) => {
+    console.log(successMessage);
+
+  });
 
   checkIfFileOrFolder('./example');
-
 
