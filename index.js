@@ -66,7 +66,31 @@ const miPrimeraPromise = new Promise((resolve, reject) => {
   });
 
   checkIfFileOrFolder('./example');
+//---------------------INTENTANDO PASAR A PROMESAS
 
+const checkIfFileOrFolderss = (path) => {  
+  return new Promise ((resolve,reject)=>{
+    fs.stat(path).then(stats => {
+      if (stats.isDirectory()) {
+        fs.readdir(path, 'utf8').then(files => {
+          for (const fileName in files) {
+            const element = files[fileName];
+            checkIfFileOrFolder(`${path}/${element}`);
+          }
+        }, error => {
+          console.log(error);
+        });
+      } else if (stats.isFile() && path.indexOf('.md', -3) >= 0) {
+        links = links.concat(readFileMarkdown(path));
+        resolve(links)
+      }
+    }, error => {
+      console.log(error);
+      process.exit(1);
+    });
+
+  });
+}
 
 //---------------------------------------------------------------FUNCION PARA VALIDAR UN LINK CALLBACK
 /* const  validateLinkOk=(url,callback)=> {
