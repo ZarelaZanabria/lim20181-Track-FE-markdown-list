@@ -1,5 +1,5 @@
 const mdLinks = require('../index.js');
-jest.setTimeout(10000);
+jest.setTimeout(30000);
 
 describe('Verificar si es una funcion ', () => {
 
@@ -29,25 +29,19 @@ describe('Verificar si es una funcion ', () => {
             .then(response => expect(response[0].status).toEqual(404));
     });
 
-    test('deberia retornar total: 5, unique : 4 para --stats', () => {
-        let options = {
-            validate: false,
-            stats: true,
-        }
-        return mdLinks('test/zarela', options).then(response => {
-            expect(response).toEqual({"total": 5, "uniques": 4});
-        })
-      });
+    test('Debería devolver un objeto con propiedad total y uniques de links status', async (done) => {
+        await mdLinks('test/zarela', { validate: false, stats: true }).then((data) => {
+            expect(data).toEqual(expect.objectContaining({ total: 30, uniques: 4 }));
+            done();
+        });
+    });
 
-      test('deberia retornar total: 5, unique : 4 para --validate --stats', () => {
-        let options = {
-            validate: true,
-            stats: true,
-        }
-        return mdLinks('test/zarela', options).then(response => {
-            expect(response).toEqual({"broken": 1, "total": 5, "uniques": 4});
-        })
-      });
+    test('Debería devolver un objeto con propiedad total, uniques y broken  de links status', async (done) => {
+        await mdLinks('D:\\2018\\lim20181-Track-FE-markdown-list\\test\\zarela/README22.md', { validate: true, stats: true }).then((data) => {
+            expect(data).toEqual(expect.objectContaining({ total: 34, uniques: 4 , broken : 7}));
+            done();
+        });
+    });
 
 });
 

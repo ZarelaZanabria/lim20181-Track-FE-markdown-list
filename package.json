@@ -1,6 +1,6 @@
 {
-  "name": "zarelix-md-link",
-  "version": "1.1.1",
+  "name": "validate-markdown",
+  "version": "1.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {

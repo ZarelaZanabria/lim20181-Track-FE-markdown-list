@@ -116,7 +116,7 @@ const mdLinks = (path, options) => new Promise((resolve, reject) => {
         resolve(links);
       }
     },
-      5000);
+      2000);
   } else {
     reject(`La ruta no existe o es incorrecta`);
   }
