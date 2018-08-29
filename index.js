@@ -40,7 +40,6 @@ const checkIfFileOrFolder = path => {
   fs.stat(path, (error, stats) => {
     if (error) {
       console.log(error);
-      process.exit(1);
     }
     else {
       if (stats.isDirectory()) {
@@ -56,7 +55,7 @@ const checkIfFileOrFolder = path => {
         })
       } else if (stats.isFile() && path.indexOf('.md', -3) >= 0) {
         links = links.concat(readFileMarkdown(path));
-       /*  console.log(links) */
+        /*  console.log(links) */
       }
     }
   });
