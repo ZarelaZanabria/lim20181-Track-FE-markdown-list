@@ -63,27 +63,38 @@ const checkIfFileOrFolder = path => {
 
 //----------------------------------------------------------------FUNCIÓN PARA VALIDAR LOS LINKS
 const validateLinks = (arrLinks, callback) => {
-  let linksValidate = [];
+  let arrLink = [];
   arrLinks.forEach(element => {
     fetch(element.href)
-      .then((response) => linksValidate.push({
-        ...element,
-        status: response.status,
-        statusText: response.statusText,
+      .then((response) => {
+        if (response.status >= 200 && response.status < 400) {
+          arrLink.push({
+            ...element,
+            status: response.status,
+            statusText: response.statusText,
+          })
 
-      }))
-      .catch(error => linksValidate.push({
+        } else {
+          arrLink.push({
+            ...element,
+            status: 404,
+            statusText: 'FAIL',
+          })
+
+        }
+      })
+      .catch(error => arrLink.push({
         ...element,
         status: 404,
         statusText: 'FAIL',
-
       }))
   });
   // tomanos un tiempo de 2 segundos para esperar las promesas
-  setTimeout(() => callback(linksValidate), 2000);
+  setTimeout(() => callback(arrLink), 2000);
 };
 //----------------------------------------------------------------------FUNCIÓN PARA PODER VALIDAR LOS REPETIDOS
 const linkStats = (arrLinks) => {
+  /*Creamos un funcion para poder verificar */
   deleteLinkDuplicate = (arr) => {
     return arr.filter((value, index) => {
       return arr.indexOf(value) === index;
@@ -106,7 +117,7 @@ const mdLinks = (path, options) => new Promise((resolve, reject) => {
       } else if (options.stats && options.validate) {
         const linkresol = linkStats(links);
         validateLinks(links, arrLinksValidate => {
-          linkresol.broken = arrLinksValidate.filter(link => link.statusText === 'FAIL').length;
+          linkresol.broken = arrLinksValidate.filter(link => (link.statusText === 'FAIL')).length;
           resolve(linkresol);
         });
       } else if (options.validate && !options.stats) {

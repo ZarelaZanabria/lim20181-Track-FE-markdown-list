@@ -1,6 +1,6 @@
 # Markdown Links
 
-[Markdown](https://es.wikipedia.org/wiki/Markdown1) es un lenguaje de marcado
+[Markdown](https://es.wikipedia.org/wiki/Markdown) es un lenguaje de marcado
 ligero muy popular entre developers. Es usado en muchísimas plataformas que
 manejan texto plano (GitHub, foros, blogs, ...), y es muy común
 encontrar varios archivos en ese formato en cualquier tipo de repositorio
@@ -41,7 +41,7 @@ que hay dentro del link (truncado a 50 caracteres).
 
 Si pasamos la opción `--validate`, el módulo debe hacer una petición HTTP para
 averiguar si el link funciona o no. Si el link resulta en una redirección a una
-URL que responde ok, entonces consideraremos el link como ok.
+URL que responde ok, entonces consideraremos el link como Ok.
 
 Por ejemplo:
 
