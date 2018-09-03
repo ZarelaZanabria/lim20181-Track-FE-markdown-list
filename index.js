@@ -75,7 +75,7 @@ const validateLinks = (arrLinks, callback) => {
       .catch(error => linksValidate.push({
         ...element,
         status: 404,
-        statusText: 'fail',
+        statusText: 'FAIL',
 
       }))
   });
@@ -106,7 +106,7 @@ const mdLinks = (path, options) => new Promise((resolve, reject) => {
       } else if (options.stats && options.validate) {
         const linkresol = linkStats(links);
         validateLinks(links, arrLinksValidate => {
-          linkresol.broken = arrLinksValidate.filter(link => link.statusText === 'fail').length;
+          linkresol.broken = arrLinksValidate.filter(link => link.statusText === 'FAIL').length;
           resolve(linkresol);
         });
       } else if (options.validate && !options.stats) {
