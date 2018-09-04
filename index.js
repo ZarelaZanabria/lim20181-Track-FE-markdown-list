@@ -23,7 +23,7 @@ const readFileMarkdown = path => {
   let urlLinks = readMarkdown.match(RegExpLink);
   const textLink = /\[(.*)\]/gi
   const urlLink = /\]\((.*?|(https?|http?|ftp):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-]))\)/gi;;
-  for (let i = 0; i < urlLinks.length; i++) {
+  for (const i in urlLinks){
     let textLinkMarkdown = urlLinks[i].match(textLink)[0].substring(1, urlLinks[i].match(textLink)[0].length - 1);
     let urlLinkMarkdown = urlLinks[i].match(urlLink)[0].match(urlLink)[0].substring(2, urlLinks[i].match(urlLink)[0].length - 1);
     //Este codigo permite agregar al array un objetos con las siguientes propiedades
@@ -36,26 +36,28 @@ const readFileMarkdown = path => {
   return linksMd; // linksMd guardamos el array de objetos con los linksMd
 }
 //-------------------------------------------------------------------------------------------FUNCION VERIFICA SI ES UN DIRECTORIO O CARPETA
-const checkIfFileOrFolder = path => {
-  fs.stat(path, (error, stats) => {
+const checkIfFileOrFolder = paths => {
+  const ext = '.md';
+  const extName = path.extname(paths);
+  fs.stat(paths, (error, stats) => {
     if (error) {
       console.log(error);
     }
     else {
       if (stats.isDirectory()) {
-        fs.readdir(path, 'utf8', (error, files) => {
+        fs.readdir(paths, 'utf8', (error, files) => {
           if (error) {
             console.log(error);
           } else {
             for (const fileName in files) {
               const element = files[fileName]
-              checkIfFileOrFolder(path + '/' + element);
+              checkIfFileOrFolder(paths + '/' + element);
             }
           }
         })
-      } else if (stats.isFile() && path.indexOf('.md', -3) >= 0) {
-        links = links.concat(readFileMarkdown(path));
-        /*  console.log(links) */
+      } else if (stats.isFile() && ext===extName) {
+        links = links.concat(readFileMarkdown(paths));
+
       }
     }
   });
@@ -77,7 +79,7 @@ const validateLinks = (arrLinks, callback) => {
         } else {
           arrLink.push({
             ...element,
-            status: 404,
+            status: response.status,
             statusText: 'FAIL',
           })
 
@@ -90,7 +92,7 @@ const validateLinks = (arrLinks, callback) => {
       }))
   });
   // tomanos un tiempo de 2 segundos para esperar las promesas
-  setTimeout(() => callback(arrLink), 2000);
+ setTimeout(() => callback(arrLink), 2000); 
 };
 //----------------------------------------------------------------------FUNCIÓN PARA PODER VALIDAR LOS REPETIDOS
 const linkStats = (arrLinks) => {
