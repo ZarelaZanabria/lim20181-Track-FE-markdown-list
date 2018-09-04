@@ -49,10 +49,10 @@ const checkIfFileOrFolder = paths => {
           if (error) {
             console.log(error);
           } else {
-            for (const fileName in files) {
-              const element = files[fileName]
+            files.forEach(element => {
               checkIfFileOrFolder(paths + '/' + element);
-            }
+            });
+
           }
         })
       } else if (stats.isFile() && ext===extName) {
@@ -65,7 +65,7 @@ const checkIfFileOrFolder = paths => {
 
 //----------------------------------------------------------------FUNCIÓN PARA VALIDAR LOS LINKS
 const validateLinks = (arrLinks, callback) => {
-  let arrLink = [];
+  const arrLink = [];
   arrLinks.forEach(element => {
     fetch(element.href)
       .then((response) => {
